@@ -1,7 +1,5 @@
-﻿using CursoOnline.DominioTest.Cursos;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using CursoOnline.Dominio.Cursos;
 
 namespace CursoOnline.DominioTest._Builders
 {

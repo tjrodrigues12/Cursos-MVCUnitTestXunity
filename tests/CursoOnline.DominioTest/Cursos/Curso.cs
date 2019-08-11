@@ -1,4 +1,0 @@
-﻿namespace CursoOnline.DominioTest.Cursos
-{
-    
-}

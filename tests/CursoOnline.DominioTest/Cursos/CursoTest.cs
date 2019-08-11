@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
-using ExpectedObjects;
-using CursoOnline.DominioTest._Util;
 using Xunit.Abstractions;
+using ExpectedObjects;
+using Bogus;
+
+using CursoOnline.DominioTest._Util;
 using CursoOnline.DominioTest._Builders;
+using CursoOnline.Dominio.Cursos;
 
 namespace CursoOnline.DominioTest.Cursos
 {
@@ -29,13 +30,15 @@ namespace CursoOnline.DominioTest.Cursos
 
         public CursoTest(ITestOutputHelper output)
         {
+            var faker = new Faker();
             _output = output;
             _output.WriteLine("Construtor Sendo Executado");
-            _nome = "Informática Básica";
-            _descricao = "Uma descrição...";
-            _cargaHoraria = 80;
+            _nome = faker.Commerce.ProductName();
+            _descricao = faker.Lorem.Paragraph();
+            _cargaHoraria = faker.Random.Double(1, 100);
             _publicoAlvo = PublicoALvo.Estudante;
-            _valor = 950;
+            _valor = faker.Random.Double(100,1000);
+
         }
 
         [Fact(DisplayName = "DeveCriarCurso")]
@@ -109,42 +112,4 @@ namespace CursoOnline.DominioTest.Cursos
 
         }
     }
-
-    public enum PublicoALvo
-    {
-        Estudante,
-        Universitario,
-        Empregado,
-        Empreendedor
-    }
-
-    public class Curso
-    {
-
-        public string Nome { get; private set; }
-        public string Descricao { get; private set; }
-        public double CargaHoraria { get; private set; }
-        public PublicoALvo PublicoAlvo { get; private set; }
-        public double Valor { get; private set; }
-
-        public Curso(string nome, string descricao, double cargaHoraria, PublicoALvo publicoAlvo, double valor)
-        {
-            if (string.IsNullOrEmpty(nome))
-                throw new ArgumentException("Nome Inválido");
-
-            if (cargaHoraria < 1)
-                throw new ArgumentException("Carga Horária Inválida");
-
-            if (valor < 1)
-                throw new ArgumentException("Valor Inválido");
-
-            this.Nome = nome;
-            this.Descricao = descricao;
-            this.CargaHoraria = cargaHoraria;
-            this.PublicoAlvo = publicoAlvo;
-            this.Valor = valor;
-        }
-    }
-
-
 }
