@@ -5,6 +5,7 @@ using Xunit;
 using ExpectedObjects;
 using CursoOnline.DominioTest._Util;
 using Xunit.Abstractions;
+using CursoOnline.DominioTest._Builders;
 
 namespace CursoOnline.DominioTest.Cursos
 {
@@ -12,7 +13,7 @@ namespace CursoOnline.DominioTest.Cursos
     //- As opções para público alvo são: Estudante, Universitário, Empregado e Empreendedor
     //- Todos os campos do curso são obrigatórios
 
-    public class CursoTest //: IDisposable
+    public class CursoTest : IDisposable
     {
         private readonly ITestOutputHelper _output;
         private readonly string _nome;
@@ -21,10 +22,10 @@ namespace CursoOnline.DominioTest.Cursos
         private readonly PublicoALvo _publicoAlvo;
         private readonly double _valor;
 
-        //public void Dispose()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void Dispose()
+        {
+            _output.WriteLine("Disposable Sendo Executado");
+        }
 
         public CursoTest(ITestOutputHelper output)
         {
@@ -74,8 +75,8 @@ namespace CursoOnline.DominioTest.Cursos
             //Act (Ação)
 
             //Assert (Afirmar)
-            Assert.Throws<ArgumentException>(() => new Curso(nomeInvalido, _descricao, _cargaHoraria,
-                _publicoAlvo, _valor)).WithMessage("Nome Inválido");
+            Assert.Throws<ArgumentException>(() => CursoBuilder.New().ComNome(nomeInvalido).Build())
+                .WithMessage("Nome Inválido");
 
         }
 
@@ -89,8 +90,8 @@ namespace CursoOnline.DominioTest.Cursos
 
 
             //Assert (Afirmar)
-            Assert.Throws<ArgumentException>(() => new Curso(_nome, _descricao, cargaHorariaInvalida,
-                _publicoAlvo, _valor)).WithMessage("Carga Horária Inválida");
+            Assert.Throws<ArgumentException>(() => CursoBuilder.New().ComCargaHoraria(cargaHorariaInvalida).Build())
+                .WithMessage("Carga Horária Inválida");
 
         }
 
@@ -103,8 +104,8 @@ namespace CursoOnline.DominioTest.Cursos
             //Arrange (Organização)
 
             //Assert (Afirmar)
-            Assert.Throws<ArgumentException>(() => new Curso(_nome, _descricao, _cargaHoraria,
-                _publicoAlvo, valorInvalido)).WithMessage("Valor Inválido");
+            Assert.Throws<ArgumentException>(() => CursoBuilder.New().ComValor(valorInvalido).Build())
+                .WithMessage("Valor Inválido");
 
         }
     }
